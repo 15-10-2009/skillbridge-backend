@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SkillBridge Backend</title>
+
+  <style>
+    body{
+      background:#0f172a;
+      color:white;
+      font-family:Arial;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+    }
+
+    .container{
+      width:900px;
+    }
+
+    h1{
+      text-align:center;
+      margin-bottom:40px;
+      color:#38bdf8;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:20px;
+    }
+
+    .card{
+      background:#1e293b;
+      padding:30px;
+      border-radius:20px;
+      text-align:center;
+      transition:0.3s;
+    }
+
+    .card:hover{
+      transform:translateY(-5px);
+    }
+
+    a{
+      text-decoration:none;
+      color:white;
+    }
+
+    button{
+      margin-top:20px;
+      padding:12px 20px;
+      border:none;
+      background:#38bdf8;
+      color:white;
+      border-radius:10px;
+      cursor:pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>🚀 SkillBridge Backend Dashboard</h1>
+
+  <div class="grid">
+
+    <a href="/students-page">
+      <div class="card">
+        <h2>📚 GET Students</h2>
+        <button>Open</button>
+      </div>
+    </a>
+
+    <a href="/add-student">
+      <div class="card">
+        <h2>➕ POST Student</h2>
+        <button>Open</button>
+      </div>
+    </a>
+
+    <a href="/update-student">
+      <div class="card">
+        <h2>✏️ UPDATE Student</h2>
+        <button>Open</button>
+      </div>
+    </a>
+
+    <a href="/delete-student">
+      <div class="card">
+        <h2>🗑️ DELETE Student</h2>
+        <button>Open</button>
+      </div>
+    </a>
+
+  </div>
+
+</div>
+
+</body>
+</html>
