@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Students</title>
+    <style>
+        body { background: #0f172a; color: white; font-family: sans-serif; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #334155; padding: 12px; text-align: left; }
+        th { background: #1e293b; }
+        .back-btn { color: #38bdf8; text-decoration: none; display: inline-block; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <a href="home.html" class="back-btn">← Back to Dashboard</a>
+    <h2>🎓 Registered Students</h2>
+    <table id="studentTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Course</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+
+    <script>
+        async function loadStudents() {
+            const res = await fetch("https://skillbridge-backend-7quv.onrender.com/students");
+            const result = await res.json();
+            const body = document.getElementById("tableBody");
+            
+            body.innerHTML = result.data.map(s => `
+                <tr>
+                    <td>${s.id}</td>
+                    <td>${s.name}</td>
+                    <td>${s.course}</td>
+                    <td>${s.email}</td>
+                </tr>
+            `).join('');
+        }
+        loadStudents();
+    </script>
+</body>
+</html>

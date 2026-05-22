@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Student</title>
+    <style>
+        body { background: #0f172a; color: white; font-family: sans-serif; text-align: center; padding: 50px; }
+        input { padding: 10px; border-radius: 5px; margin: 10px; width: 200px; }
+        button { padding: 10px 20px; background: #ef4444; border: none; color: white; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h3>🗑️ Delete Student</h3>
+    <input type="number" id="studentId" placeholder="Enter Student ID">
+    <button onclick="deleteStudent()">Delete Permanently</button>
+    <br><br>
+    <a href="home.html" style="color: #38bdf8;">Back to Dashboard</a>
+
+    <script>
+        async function deleteStudent() {
+            const id = document.getElementById("studentId").value;
+            const res = await fetch(`https://skillbridge-backend-7quv.onrender.com/students/${id}`, {
+                method: "DELETE"
+            });
+            const result = await res.json();
+            alert(result.message);
+        }
+    </script>
+</body>
+</html>

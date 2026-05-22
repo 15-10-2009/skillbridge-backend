@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Student</title>
+    <style>
+        body { background: #0f172a; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; flex-direction: column; }
+        .container { background: #1e293b; padding: 30px; border-radius: 10px; width: 350px; display: flex; flex-direction: column; gap: 15px; }
+        input { padding: 12px; border-radius: 5px; border: 1px solid #334155; background: #0f172a; color: white; }
+        button { padding: 12px; background: #f59e0b; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; color: black; }
+        button:hover { background: #d97706; }
+        .search-section { margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 20px; }
+        .back-link { color: #38bdf8; text-decoration: none; font-size: 14px; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h3>✏️ Update Student Details</h3>
+        
+        <div class="search-section">
+            <p style="font-size: 14px; color: #94a3b8;">Enter ID to load data:</p>
+            <div style="display: flex; gap: 5px;">
+                <input type="number" id="updateId" placeholder="Student ID" style="width: 100px;">
+                <button onclick="loadStudentData()" style="background: #38bdf8; flex-grow: 1;">Load</button>
+            </div>
+        </div>
+
+        <form id="updateForm">
+            <input type="text" id="newName" placeholder="New Name">
+            <input type="text" id="newCourse" placeholder="New Course">
+            <input type="number" id="newAge" placeholder="New Age">
+            <input type="email" id="newEmail" placeholder="New Email">
+            <button type="submit" style="width: 100%; margin-top: 10px;">Update Student</button>
+        </form>
+
+        <a href="home.html" class="back-link">← Return to Dashboard</a>
+    </div>
+
+    <script>
+        const BASE_URL = "https://skillbridge-backend-7quv.onrender.com/students";
+
+        // Function to fetch current details of the student
+        async function loadStudentData() {
+            const id = document.getElementById("updateId").value;
+            if (!id) return alert("Please enter an ID");
+
+            try {
+                const res = await fetch(BASE_URL);
+                const result = await res.json();
+                const student = result.data.find(s => s.id == id);
+
+                if (student) {
+                    document.getElementById("newName").value = student.name;
+                    document.getElementById("newCourse").value = student.course;
+                    document.getElementById("newAge").value = student.age;
+                    document.getElementById("newEmail").value = student.email;
+                    alert("Student data loaded!");
+                } else {
+                    alert("Student not found!");
+                }
+            } catch (err) {
+                alert("Error connecting to server.");
+            }
+        }
+
+        // Function to send the PUT request
+        document.getElementById("updateForm").onsubmit = async (e) => {
+            e.preventDefault();
+            const id = document.getElementById("updateId").value;
+            
+            const updatedData = {
+                name: document.getElementById("newName").value,
+                course: document.getElementById("newCourse").value,
+                age: parseInt(document.getElementById("newAge").value),
+                email: document.getElementById("newEmail").value
+            };
+
+            const res = await fetch(`${BASE_URL}/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(updatedData)
+            });
+
+            const result = await res.json();
+            if (result.success) {
+                alert("Update Successful! ✅");
+                window.location.href = "students.html";
+            } else {
+                alert("Update failed: " + result.message);
+            }
+        };
+    </script>
+</body>
+</html>
