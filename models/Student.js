@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-
 const studentSchema = new mongoose.Schema(
   {
     name: {
@@ -20,13 +19,13 @@ const studentSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Age is required"],
       min: [18, "Minimum age should be 18"],
-      max: [60, "Maximum age should be 18"],
+      max: [60, "Maximum age should be 60"],
     },
 
     email: {
       type: String,
       required: [true, "Email is required"],
-      unique: true, // Prevents duplicate email registrations
+      unique: true, // This is enough to create the unique index
       lowercase: true,
       trim: true,
       match: [
@@ -47,14 +46,13 @@ const studentSchema = new mongoose.Schema(
     },
   },
   {
-    // Automatically creates 'createdAt' and 'updatedAt' fields
     timestamps: true, 
   }
 );
 
-
 /**
- * Export the Model
- * mongoose.model("Student", ...) creates a collection named 'students' (plural)
+ * NOTE: We removed the "studentSchema.index" line from the bottom.
+ * Mongoose automatically handles the index because of "unique: true" above.
  */
+
 module.exports = mongoose.model("Student", studentSchema);
