@@ -1,9 +1,6 @@
 const mongoose = require("mongoose");
 
-/**
- * Student Schema
- * Defines the structure for each student document in MongoDB
- */
+
 const studentSchema = new mongoose.Schema(
   {
     name: {
@@ -23,7 +20,7 @@ const studentSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Age is required"],
       min: [18, "Minimum age should be 18"],
-      max: [60, "Maximum age should be 60"],
+      max: [60, "Maximum age should be 18"],
     },
 
     email: {
@@ -31,6 +28,7 @@ const studentSchema = new mongoose.Schema(
       required: [true, "Email is required"],
       unique: true, // Prevents duplicate email registrations
       lowercase: true,
+      trim: true,
       match: [
         /^\S+@\S+\.\S+$/,
         "Please enter a valid email address",
@@ -53,6 +51,7 @@ const studentSchema = new mongoose.Schema(
     timestamps: true, 
   }
 );
+
 
 /**
  * Export the Model

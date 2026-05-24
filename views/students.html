@@ -85,37 +85,48 @@
             const body = document.getElementById("tableBody");
             
             try {
-                // Using a relative path since the HTML is served by the same server
+                // Fetch from the API
                 const res = await fetch("/students");
                 
                 if (!res.ok) throw new Error("Failed to fetch data");
 
-                const result = await res.json();
+                let result = await res.json();
                 
+                /**
+                 * SAFETY FIX: 
+                 * If for some reason the backend sends { success: true, data: [...] } 
+                 * instead of just [...], this line will find the array automatically.
+                 */
+                const studentsArray = Array.isArray(result) ? result : result.data;
+
                 // If no students exist
-                if (result.length === 0) {
+                if (!studentsArray || studentsArray.length === 0) {
                     body.innerHTML = "<tr><td colspan='4' class='status-msg'>No students found. Add some first!</td></tr>";
                     return;
                 }
 
                 // Map the data into table rows
-                // Note: We use s._id because MongoDB uses underscores for IDs
-                body.innerHTML = result.map(s => `
+                body.innerHTML = studentsArray.map(s => `
                     <tr>
-                        <td style="font-family: monospace; color: #94a3b8;">#${s._id.substring(18)}</td>
-                        <td style="font-weight: 600;">${s.name}</td>
-                        <td><span style="background: #0ea5e9; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem;">${s.course || 'General'}</span></td>
-                        <td>${s.email}</td>
+                        <td style="font-family: monospace; color: #94a3b8;">
+                            #${s._id ? s._id.substring(s._id.length - 6) : 'N/A'}
+                        </td>
+                        <td style="font-weight: 600;">${s.name || "Unknown"}</td>
+                        <td>
+                            <span style="background: #0ea5e9; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem;">
+                                ${s.course || 'General'}
+                            </span>
+                        </td>
+                        <td>${s.email || "No Email"}</td>
                     </tr>
                 `).join('');
 
             } catch (error) {
                 console.error("Fetch Error:", error);
-                body.innerHTML = "<tr><td colspan='4' class='status-msg' style='color: #ef4444;'>❌ Error loading students. Please check your connection.</td></tr>";
+                body.innerHTML = `<tr><td colspan="4" class="status-msg" style="color: #ef4444;">❌ Error: ${error.message}</td></tr>`;
             }
         }
 
-        // Run the function when the page loads
         window.onload = loadStudents;
     </script>
 </body>
