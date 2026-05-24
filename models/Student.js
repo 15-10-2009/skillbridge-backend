@@ -1,5 +1,9 @@
 const mongoose = require("mongoose");
 
+/**
+ * Student Schema
+ * Defines the structure for each student document in MongoDB
+ */
 const studentSchema = new mongoose.Schema(
   {
     name: {
@@ -25,7 +29,7 @@ const studentSchema = new mongoose.Schema(
     email: {
       type: String,
       required: [true, "Email is required"],
-      unique: true,
+      unique: true, // Prevents duplicate email registrations
       lowercase: true,
       match: [
         /^\S+@\S+\.\S+$/,
@@ -44,10 +48,14 @@ const studentSchema = new mongoose.Schema(
       default: "Beginner",
     },
   },
-
   {
-    timestamps: true,
+    // Automatically creates 'createdAt' and 'updatedAt' fields
+    timestamps: true, 
   }
 );
 
+/**
+ * Export the Model
+ * mongoose.model("Student", ...) creates a collection named 'students' (plural)
+ */
 module.exports = mongoose.model("Student", studentSchema);

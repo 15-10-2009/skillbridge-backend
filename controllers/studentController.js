@@ -3,17 +3,16 @@ const Student = require("../models/Student");
 // ======================================
 // GET ALL STUDENTS
 // ======================================
-
 const getStudents = async (req, res) => {
   try {
+    // We sort by createdAt if you have timestamps enabled in your Schema
     const students = await Student.find().sort({ createdAt: -1 });
 
-    res.status(200).json({
-      success: true,
-      totalStudents: students.length,
-      data: students,
-    });
+    // Send the array directly to make it easier for the frontend to map
+    res.status(200).json(students);
+    
   } catch (error) {
+    console.error("Error fetching students:", error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -24,7 +23,6 @@ const getStudents = async (req, res) => {
 // ======================================
 // CREATE STUDENT
 // ======================================
-
 const createStudent = async (req, res) => {
   try {
     const student = await Student.create(req.body);
@@ -45,7 +43,6 @@ const createStudent = async (req, res) => {
 // ======================================
 // UPDATE STUDENT
 // ======================================
-
 const updateStudent = async (req, res) => {
   try {
     const student = await Student.findByIdAndUpdate(
@@ -80,7 +77,6 @@ const updateStudent = async (req, res) => {
 // ======================================
 // DELETE STUDENT
 // ======================================
-
 const deleteStudent = async (req, res) => {
   try {
     const student = await Student.findByIdAndDelete(req.params.id);
