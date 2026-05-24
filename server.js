@@ -2,11 +2,12 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const path = require("path");
-
 const connectDB = require("./config/db");
 
+// Load environment variables
 dotenv.config();
 
+// Connect to MongoDB
 connectDB();
 
 const app = express();
@@ -18,9 +19,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+/** * Static Files Middleware
+ * This ensures that CSS, Images, and Client-side JS 
+ * stored in the 'views' folder are accessible to the browser.
+ */
+app.use(express.static(path.join(__dirname, "views")));
+
 // Request Logger
 app.use((req, res, next) => {
-  // Corrected: Wrapped in backticks for template literal
   console.log(
     `📌 ${req.method} ${req.url} | ${new Date().toLocaleTimeString()}`
   );
@@ -76,7 +82,6 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-  // Corrected: Added backticks and quotes for the log messages
   console.log(`🚀 SkillBridge Pro Running`);
   console.log(`🌐 Server : http://localhost:${PORT}`);
   console.log(`⚡ Mode   : ${process.env.NODE_ENV || 'development'}`);
