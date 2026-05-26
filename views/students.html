@@ -86,7 +86,7 @@
             
             try {
                 // Fetch from the API
-                const res = await fetch("/students");
+                const res = await fetch("/api/students");
                 
                 if (!res.ok) throw new Error("Failed to fetch data");
 

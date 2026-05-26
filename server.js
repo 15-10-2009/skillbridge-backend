@@ -1,3 +1,5 @@
+const studentRoutes = require("./routes/studentRoutes");
+
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
@@ -68,7 +70,7 @@ app.get("/delete-student", (req, res) => {
 // API ROUTES
 // ======================================
 
-app.use("/students", require("./routes/studentRoutes"));
+app.use("/api/students", require("./routes/studentRoutes"));
 
 // ======================================
 // 404 HANDLER
