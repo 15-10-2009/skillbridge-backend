@@ -5,9 +5,10 @@ dns.setServers(["1.1.1.1"]);
 const mongoose = require("mongoose");
 
 
-const connectDB = async () => {
+const connectDB = async (mongoUri) => {
+    const uri = mongoUri || process.env.MONGO_URI || "mongodb://127.0.0.1:27017/skillbridge";
     try {
-        const conn = await mongoose.connect(process.env.MONGO_URI);
+        const conn = await mongoose.connect(uri);
 
         console.log("-----------------------------------------");
         console.log("✅ MongoDB Connected Successfully");

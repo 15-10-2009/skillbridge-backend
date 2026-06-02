@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
+const { protect } = require("../middleware/authMiddleware");
+
 // Ensure the filename in the 'controllers' folder matches exactly!
 const {
   getStudents,
+  getStudentById,
   createStudent,
   updateStudent,
   deleteStudent,
@@ -17,8 +20,9 @@ router.use((req, res, next) => {
 
 // Standard Routes
 router.get("/", getStudents);
-router.post("/", createStudent);
-router.put("/:id", updateStudent);
-router.delete("/:id", deleteStudent);
+router.get("/:id", protect, getStudentById);
+router.post("/", protect, createStudent);
+router.put("/:id", protect, updateStudent);
+router.delete("/:id", protect, deleteStudent);
 
 module.exports = router;

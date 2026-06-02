@@ -1,0 +1,17 @@
+$kind: http-request
+method: POST
+url: 'http://localhost:3000/students'
+order: 2000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "John Doe",
+      "course": "Full Stack Web Dev",
+      "age": 22,
+      "email": "john@example.com",
+      "learningStatus": "Beginner"
+    }
